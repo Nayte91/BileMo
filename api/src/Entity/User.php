@@ -4,10 +4,16 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ApiResource
+ * @UniqueEntity(fields="name", message="This email address already exists.")
+ * @ApiResource(
+ *     normalizationContext={"groups"={"user:read"}},
+ *     denormalizationContext={"groups"={"user:write"}}
+ * )
  */
 class User
 {
@@ -15,16 +21,25 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"user:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"user:read", "user:write"})
      */
-    private $name;
+    private $givenName;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"user:read", "user:write"})
+     */
+    private $familyName;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Groups({"user:read", "user:write"})
      */
     private $email;
 
@@ -39,14 +54,26 @@ class User
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getFamilyName(): ?string
     {
-        return $this->name;
+        return $this->familyName;
     }
 
-    public function setName(?string $name): self
+    public function setFamilyName(?string $familyName): self
     {
-        $this->name = $name;
+        $this->familyName = $familyName;
+
+        return $this;
+    }
+
+    public function getGivenName(): ?string
+    {
+        return $this->givenName;
+    }
+
+    public function setGivenName(?string $givenName): self
+    {
+        $this->givenName = $givenName;
 
         return $this;
     }
