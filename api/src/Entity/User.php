@@ -2,18 +2,23 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields="name", message="This email address already exists.")
+ * @UniqueEntity(fields="email", message="This email address already exists.")
  * @ApiResource(
  *     normalizationContext={"groups"={"user:read"}},
  *     denormalizationContext={"groups"={"user:write"}}
  * )
+ * @ApiFilter(SearchFilter::class, properties={"email": "partial"})
  */
 class User
 {
@@ -28,6 +33,7 @@ class User
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
      * @Groups({"user:read", "user:write"})
+     * @SerializedName("firstName")
      */
     private $givenName;
 
@@ -40,12 +46,16 @@ class User
     /**
      * @ORM\Column(type="string", length=100)
      * @Groups({"user:read", "user:write"})
+     * @Assert\Email
+     * @Assert\NotBlank
      */
     private $email;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"user:write"})
+     * @Assert\Valid
      */
     private $customer;
 

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     collectionOperations={"GET"},
  *     itemOperations={"GET"}
  * )
+ * @ApiFilter(BooleanFilter::class, properties={"isAvailable"})
  */
 class Product
 {
