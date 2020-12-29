@@ -15,7 +15,7 @@ class ProductFixtures extends Fixture
             $product->setName($productData['name']);
             $product->setBrand($productData['brand']);
             $product->setReleasedAt($productData['releasedAt']);
-            $product->setIsAvailable((bool)random_int(0, 1));
+            $product->setIsAvailable(!(date_diff($productData['releasedAt'], new \DateTime)->days > 365));
             $manager->persist($product);
         }
         $manager->flush();
