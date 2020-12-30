@@ -10,7 +10,7 @@ class ProductFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        foreach ($this->ProductsDataset() as $productData) {
+        foreach ($this->getProductsDataset() as $productData) {
             $product = new Product;
             $product->setName($productData['name']);
             $product->setBrand($productData['brand']);
@@ -21,7 +21,7 @@ class ProductFixtures extends Fixture
         $manager->flush();
     }
 
-    public function ProductsDataset(): array
+    public function getProductsDataset(): array
     {
         return [
             [
