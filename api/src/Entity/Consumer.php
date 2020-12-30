@@ -2,78 +2,60 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\ConsumerRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\SerializedName;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass=ConsumerRepository::class)
  * @UniqueEntity(fields="email", message="This email address already exists.")
  * @ApiResource(
- *     normalizationContext={"groups"={"user:read"}},
- *     denormalizationContext={"groups"={"user:write"}}
+ *     normalizationContext={"groups"={"consumer:read"}},
+ *     denormalizationContext={"groups"={"consumer:write"}}
  * )
  * @ApiFilter(SearchFilter::class, properties={"email": "partial"})
  */
-class User
+class Consumer
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"user:read"})
+     * @Groups({"consumer:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     * @Groups({"user:read", "user:write"})
-     * @SerializedName("firstName")
+     * @Groups({"consumer:read", "consumer:write"})
      */
     private $givenName;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"consumer:read", "consumer:write"})
      */
     private $familyName;
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Groups({"user:read", "user:write"})
-     * @Assert\Email
-     * @Assert\NotBlank
+     * @Groups({"consumer:read", "consumer:write"})
      */
     private $email;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="users")
+     * @ORM\ManyToOne(targetEntity=Customer::class)
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"user:write"})
-     * @Assert\Valid
      */
-    private $customer;
+    private $provider;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getFamilyName(): ?string
-    {
-        return $this->familyName;
-    }
-
-    public function setFamilyName(?string $familyName): self
-    {
-        $this->familyName = $familyName;
-
-        return $this;
     }
 
     public function getGivenName(): ?string
@@ -84,6 +66,18 @@ class User
     public function setGivenName(?string $givenName): self
     {
         $this->givenName = $givenName;
+
+        return $this;
+    }
+
+    public function getFamilyName(): ?string
+    {
+        return $this->familyName;
+    }
+
+    public function setFamilyName(?string $familyName): self
+    {
+        $this->familyName = $familyName;
 
         return $this;
     }
@@ -100,14 +94,14 @@ class User
         return $this;
     }
 
-    public function getCustomer(): ?Customer
+    public function getProvider(): ?Customer
     {
-        return $this->customer;
+        return $this->provider;
     }
 
-    public function setCustomer(?Customer $customer): self
+    public function setProvider(?Customer $provider): self
     {
-        $this->customer = $customer;
+        $this->provider = $provider;
 
         return $this;
     }
