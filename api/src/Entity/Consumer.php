@@ -15,7 +15,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @UniqueEntity(fields="email", message="This email address already exists.")
  * @ApiResource(
  *     normalizationContext={"groups"={"consumer:read"}},
- *     denormalizationContext={"groups"={"consumer:write"}}
+ *     denormalizationContext={"groups"={"consumer:write"}},
+ *     shortName="Users"
  * )
  * @ApiFilter(SearchFilter::class, properties={"email": "partial"})
  */
@@ -23,8 +24,8 @@ class Consumer
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(type="integer", nullable=false)
      * @Groups({"consumer:read"})
      */
     private $id;
