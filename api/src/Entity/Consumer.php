@@ -12,11 +12,30 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ConsumerRepository::class)
+ * @ORM\EntityListeners({"App\Listener\ConsumerListener"})
  * @UniqueEntity(fields="email", message="This email address already exists.")
  * @ApiResource(
  *     normalizationContext={"groups"={"consumer:read"}},
  *     denormalizationContext={"groups"={"consumer:write"}},
- *     shortName="Users"
+ *     shortName="Users",
+ *         itemOperations={
+ *         "get"={
+ *              "security"="object.getProvider() == user",
+ *              "security_message"="You don't have access to this resource."
+ *         },
+ *         "delete"={
+ *              "security"="object.getProvider() == user",
+ *              "security_message"="You don't have access to this resource."
+ *         },
+ *         "put"={
+ *              "security"="object.getProvider() == user",
+ *              "security_message"="You don't have access to this resource."
+ *         },
+ *         "patch"={
+ *              "security"="object.getProvider() == user",
+ *              "security_message"="You don't have access to this resource."
+ *         }
+ *     }
  * )
  * @ApiFilter(SearchFilter::class, properties={"email": "partial"})
  */
@@ -26,7 +45,7 @@ class Consumer
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer", nullable=false)
-     * @Groups({"consumer:read"})
+     * @Groups({"consumer:read", "consumer:write"})
      */
     private $id;
 

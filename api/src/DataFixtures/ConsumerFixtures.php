@@ -11,7 +11,7 @@ class ConsumerFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getConsumersDataset() as $consumerData) {
+        foreach ($this->getOrangeConsumersDataset() as $consumerData) {
             $consumer = new Consumer;
             $consumer->setGivenName($consumerData['givenName']);
             $consumer->setFamilyName($consumerData['familyName']);
@@ -23,7 +23,7 @@ class ConsumerFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getConsumersDataset(): array
+    public function getOrangeConsumersDataset(): array
     {
         return [
             [
@@ -111,6 +111,16 @@ class ConsumerFixtures extends Fixture implements DependentFixtureInterface
                 'familyName' => 'Duhameau',
                 'email' => 'bosu@wanadoo.fr'
             ],
+            [
+                'givenName' => 'Guillaume',
+                'familyName' => 'Beaulieu',
+                'email' => 'krovac@free.fr'
+            ],
+            [
+                'givenName' => 'Arnaud',
+                'familyName' => 'Diseur',
+                'email' => 'nono.joker@voila.fr'
+            ]
         ];
     }
 
