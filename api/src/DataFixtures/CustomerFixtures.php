@@ -9,6 +9,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class CustomerFixtures extends Fixture
 {
+    public const ORANGE = 'orange';
+    public const SFR = 'SFR';
+
     private UserPasswordEncoderInterface $passwordEncoder;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
@@ -18,10 +21,32 @@ class CustomerFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $customer = new Customer();
-        $customer->setUsername('Orange');
-        $customer->setPassword($this->passwordEncoder->encodePassword($customer, 'azerty'));
-        $manager->persist($customer);
+        foreach ($this->customersDataset() as $customerData) {
+            $customer = new Customer();
+            $customer->setUsername($customerData['username']);
+            $customer->setPassword($this->passwordEncoder->encodePassword($customer, $customerData['password']));
+            $manager->persist($customer);
+
+            if ($customerData['username'] == 'Orange')
+                $this->addReference(self::ORANGE, $customer);
+            if ($customerData['username'] == 'SFR')
+                $this->addReference(self::SFR, $customer);
+        }
+
         $manager->flush();
+    }
+
+    public function customersDataset(): array
+    {
+        return [
+            [
+                'username' => 'Orange',
+                'password' => 'azerty',
+            ],
+            [
+                'username' => 'SFR',
+                'password' => 'qwerty'
+            ],
+        ];
     }
 }
