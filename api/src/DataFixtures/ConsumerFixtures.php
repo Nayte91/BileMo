@@ -20,6 +20,13 @@ class ConsumerFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($consumer);
         }
 
+        $consumer = new Consumer;
+        $consumer->setGivenName('Tony');
+        $consumer->setFamilyName('Stark');
+        $consumer->setEmail('ironman@avengers.com');
+        $consumer->setProvider($this->getReference(CustomerFixtures::SFR));
+        $manager->persist($consumer);
+
         $manager->flush();
     }
 

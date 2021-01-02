@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class CustomerFixtures extends Fixture
 {
     public const ORANGE = 'orange';
+    public const SFR = 'SFR';
 
     private UserPasswordEncoderInterface $passwordEncoder;
 
@@ -28,6 +29,8 @@ class CustomerFixtures extends Fixture
 
             if ($customerData['username'] == 'Orange')
                 $this->addReference(self::ORANGE, $customer);
+            if ($customerData['username'] == 'SFR')
+                $this->addReference(self::SFR, $customer);
         }
 
         $manager->flush();

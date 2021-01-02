@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     normalizationContext={"groups"={"consumer:read"}},
  *     denormalizationContext={"groups"={"consumer:write"}},
  *     shortName="Users",
- *         itemOperations={
+ *     itemOperations={
  *         "get"={
  *              "security"="object.getProvider() == user",
  *              "security_message"="You don't have access to this resource."
