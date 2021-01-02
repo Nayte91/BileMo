@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Listener;
+namespace App\Event;
 
 use App\Entity\Consumer;
 use Doctrine\ORM\Event\LifecycleEventArgs;

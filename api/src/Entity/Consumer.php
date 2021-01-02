@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ConsumerRepository::class)
- * @ORM\EntityListeners({"App\Listener\ConsumerListener"})
+ * @ORM\EntityListeners({"App\Event\ConsumerListener"})
  * @UniqueEntity(fields="email", message="This email address already exists.")
  * @ApiResource(
  *     normalizationContext={"groups"={"consumer:read"}},
@@ -50,13 +50,13 @@ class Consumer
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100)
      * @Groups({"consumer:read", "consumer:write"})
      */
     private $givenName;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100)
      * @Groups({"consumer:read", "consumer:write"})
      */
     private $familyName;
