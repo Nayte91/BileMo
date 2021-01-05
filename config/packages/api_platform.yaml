@@ -1,0 +1,19 @@
+api_platform:
+    title: BileMo API
+    version: 1.0.0
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+    swagger:
+        versions: [3]
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header
+    formats:
+        json: [ 'application/json' ]
+        html: [ 'text/html' ]
+    patch_formats:
+        json: [ 'application/merge-patch+json' ]
+    collection:
+        pagination:
+            items_per_page: 15
