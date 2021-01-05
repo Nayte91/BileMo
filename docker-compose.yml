@@ -13,7 +13,7 @@ services:
       - caddy_config:/config
     labels:
       traefik.enable: true
-      traefik.http.routers.snowtricks.rule: Host(`bilemo.anagraph.org`)
+      traefik.http.routers.bilemo.rule: Host(`bilemo.anagraph.org`)
     ports:
       - 8000:80
 
@@ -23,14 +23,26 @@ services:
       context: .
       dockerfile: system/backend/Dockerfile
       args:
-        PHP_VERSION: "7.4"
+        PHP_VERSION: "8"
+    depends_on:
+      - database
     volumes:
       - .:/app
       - ./system/backend/php-custom.ini:/usr/local/etc/php/php.ini
 
+  database:
+    container_name: bilemo-mysql
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: ChangeMe
+      MYSQL_DATABASE: bilemo
+    volumes:
+      - mysql_data:/var/lib/mysql
+
 volumes:
   caddy_data:
   caddy_config:
+  mysql_data:
 
 #networks:
 #  default:
