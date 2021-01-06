@@ -17,3 +17,4 @@ api_platform:
     collection:
         pagination:
             items_per_page: 15
+    show_webby: false
