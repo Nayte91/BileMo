@@ -9,6 +9,7 @@ use App\Repository\ConsumerRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ConsumerRepository::class)
@@ -61,6 +62,7 @@ class Consumer
     /**
      * @ORM\Column(type="string", length=100)
      * @Groups({"consumer:read", "consumer:write"})
+     * @Assert\Email
      */
     private $email;
 
@@ -82,7 +84,7 @@ class Consumer
 
     public function setGivenName(?string $givenName): self
     {
-        $this->givenName = $givenName;
+        $this->givenName = ucwords(strtolower($givenName));
 
         return $this;
     }
@@ -94,7 +96,7 @@ class Consumer
 
     public function setFamilyName(?string $familyName): self
     {
-        $this->familyName = $familyName;
+        $this->familyName = ucwords(strtolower($familyName));
 
         return $this;
     }
@@ -106,7 +108,7 @@ class Consumer
 
     public function setEmail(string $email): self
     {
-        $this->email = $email;
+        $this->email = strtolower($email);
 
         return $this;
     }
