@@ -12,25 +12,39 @@ class ConsumerFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         foreach ($this->getOrangeConsumersDataset() as $consumerData) {
-            $consumer = new Consumer;
-            $consumer->setGivenName($consumerData['givenName']);
-            $consumer->setFamilyName($consumerData['familyName']);
-            $consumer->setEmail($consumerData['email']);
-            $consumer->setProvider($this->getReference(CustomerFixtures::ORANGE));
-            $manager->persist($consumer);
+            $manager->persist($this->hydrateOrangeConsumers($consumerData));
         }
 
-        $consumer = new Consumer;
-        $consumer->setGivenName('Tony');
-        $consumer->setFamilyName('Stark');
-        $consumer->setEmail('ironman@avengers.com');
-        $consumer->setProvider($this->getReference(CustomerFixtures::SFR));
-        $manager->persist($consumer);
+        foreach ($this->getSFRConsumersDataset() as $consumerData) {
+            $manager->persist($this->hydrateSFRConsumers($consumerData));
+        }
 
         $manager->flush();
     }
 
-    public function getOrangeConsumersDataset(): array
+    private function hydrateOrangeConsumers(array $consumerData): Consumer
+    {
+        $consumer = new Consumer;
+        $consumer->setGivenName($consumerData['givenName']);
+        $consumer->setFamilyName($consumerData['familyName']);
+        $consumer->setEmail($consumerData['email']);
+        $consumer->setProvider($this->getReference(CustomerFixtures::ORANGE));
+
+        return $consumer;
+    }
+
+    private function hydrateSFRConsumers(array $consumerData): Consumer
+    {
+        $consumer = new Consumer;
+        $consumer->setGivenName($consumerData['givenName']);
+        $consumer->setFamilyName($consumerData['familyName']);
+        $consumer->setEmail($consumerData['email']);
+        $consumer->setProvider($this->getReference(CustomerFixtures::SFR));
+
+        return $consumer;
+    }
+
+    private function getOrangeConsumersDataset(): array
     {
         return [
             [
@@ -128,6 +142,17 @@ class ConsumerFixtures extends Fixture implements DependentFixtureInterface
                 'familyName' => 'Diseur',
                 'email' => 'nono.joker@voila.fr'
             ]
+        ];
+    }
+
+    private function getSFRConsumersDataset(): array
+    {
+        return [
+            [
+                'givenName' => 'Tony',
+                'familyName' => 'Stark',
+                'email' => 'ironman@avengers.com'
+            ],
         ];
     }
 

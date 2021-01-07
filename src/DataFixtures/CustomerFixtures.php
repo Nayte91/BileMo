@@ -22,21 +22,34 @@ class CustomerFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         foreach ($this->customersDataset() as $customerData) {
-            $customer = new Customer();
-            $customer->setUsername($customerData['username']);
-            $customer->setPassword($this->passwordEncoder->encodePassword($customer, $customerData['password']));
-            $manager->persist($customer);
 
-            if ($customerData['username'] == 'Orange')
-                $this->addReference(self::ORANGE, $customer);
-            if ($customerData['username'] == 'SFR')
-                $this->addReference(self::SFR, $customer);
+            $customer = $this->hydrateCustomer($customerData);
+            $manager->persist($customer);
+            $this->referenceCustomer($customerData['username'], $customer);
         }
 
         $manager->flush();
     }
 
-    public function customersDataset(): array
+    private function referenceCustomer(string $username, Customer $customer): void
+    {
+        if ($username == 'Orange')
+            $this->addReference(self::ORANGE, $customer);
+
+        if ($username == 'SFR')
+            $this->addReference(self::SFR, $customer);
+    }
+
+    private function hydrateCustomer(array $customerData): Customer
+    {
+        $customer = new Customer;
+        $customer->setUsername($customerData['username']);
+        $customer->setPassword($this->passwordEncoder->encodePassword($customer, $customerData['password']));
+
+        return $customer;
+    }
+
+    private function customersDataset(): array
     {
         return [
             [

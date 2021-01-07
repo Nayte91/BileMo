@@ -11,17 +11,24 @@ class ProductFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         foreach ($this->getProductsDataset() as $productData) {
-            $product = new Product;
-            $product->setName($productData['name']);
-            $product->setBrand($productData['brand']);
-            $product->setReleasedAt($productData['releasedAt']);
-            $product->setIsAvailable(!(date_diff($productData['releasedAt'], new \DateTime)->days > 365));
-            $manager->persist($product);
+            $manager->persist($this->hydrateProduct($productData));
         }
+
         $manager->flush();
     }
 
-    public function getProductsDataset(): array
+    private function hydrateProduct(array $productData): Product
+    {
+        $product = new Product;
+        $product->setName($productData['name']);
+        $product->setBrand($productData['brand']);
+        $product->setReleasedAt($productData['releasedAt']);
+        $product->setIsAvailable(!(date_diff($productData['releasedAt'], new \DateTime)->days > 365));
+
+        return $product;
+    }
+
+    private function getProductsDataset(): array
     {
         return [
             [
