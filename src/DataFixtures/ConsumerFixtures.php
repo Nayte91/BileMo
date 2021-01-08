@@ -12,34 +12,23 @@ class ConsumerFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         foreach ($this->getOrangeConsumersDataset() as $consumerData) {
-            $manager->persist($this->hydrateOrangeConsumers($consumerData));
+            $manager->persist($this->hydrateConsumers($consumerData, CustomerFixtures::ORANGE));
         }
 
         foreach ($this->getSFRConsumersDataset() as $consumerData) {
-            $manager->persist($this->hydrateSFRConsumers($consumerData));
+            $manager->persist($this->hydrateConsumers($consumerData, CustomerFixtures::SFR));
         }
 
         $manager->flush();
     }
 
-    private function hydrateOrangeConsumers(array $consumerData): Consumer
+    private function hydrateConsumers(array $consumerData, string $customerName): Consumer
     {
         $consumer = new Consumer;
         $consumer->setGivenName($consumerData['givenName']);
         $consumer->setFamilyName($consumerData['familyName']);
         $consumer->setEmail($consumerData['email']);
-        $consumer->setProvider($this->getReference(CustomerFixtures::ORANGE));
-
-        return $consumer;
-    }
-
-    private function hydrateSFRConsumers(array $consumerData): Consumer
-    {
-        $consumer = new Consumer;
-        $consumer->setGivenName($consumerData['givenName']);
-        $consumer->setFamilyName($consumerData['familyName']);
-        $consumer->setEmail($consumerData['email']);
-        $consumer->setProvider($this->getReference(CustomerFixtures::SFR));
+        $consumer->setProvider($this->getReference($customerName));
 
         return $consumer;
     }

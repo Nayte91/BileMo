@@ -22,7 +22,6 @@ class CustomerFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         foreach ($this->customersDataset() as $customerData) {
-
             $customer = $this->hydrateCustomer($customerData);
             $manager->persist($customer);
             $this->referenceCustomer($customerData['username'], $customer);
