@@ -18,22 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *     normalizationContext={"groups"={"consumer:read"}},
  *     denormalizationContext={"groups"={"consumer:write"}},
- *     shortName="Users",
- *     securityMessage = "You don't have access to this resource",
- *     itemOperations={
- *         "get"={
- *              "security"="object.getProvider() == user",
- *         },
- *         "delete"={
- *              "security"="object.getProvider() == user",
- *         },
- *         "put"={
- *              "security"="object.getProvider() == user",
- *         },
- *         "patch"={
- *              "security"="object.getProvider() == user",
- *         }
- *     }
+ *     shortName="Users"
  * )
  * @ApiFilter(SearchFilter::class, properties={"email": "partial"})
  */
