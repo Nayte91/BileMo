@@ -37,5 +37,4 @@ class ConsumerExtension implements QueryCollectionExtensionInterface, QueryItemE
             ->andWhere(sprintf('%s.provider = :provider', $rootAlias))
             ->setParameter('provider', $this->security->getUser()->getId());
     }
-
 }

@@ -28,6 +28,7 @@ class ProductFixtures extends Fixture
         return $product;
     }
 
+    // 31 items
     private function getProductsDataset(): array
     {
         return [
@@ -152,9 +153,9 @@ class ProductFixtures extends Fixture
                 'releasedAt' => new \DateTimeImmutable('2020-09-30')
             ],
             [
-                'name' => 'Galaxy S20',
-                'brand' => 'Samsung',
-                'releasedAt' => new \DateTimeImmutable('2020-02-11')
+                'name' => 'Moto G9 Plus',
+                'brand' => 'Motorola',
+                'releasedAt' => new \DateTimeImmutable('2020-09-15')
             ],
             [
                 'name' => 'Pixel 5',

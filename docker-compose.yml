@@ -16,7 +16,8 @@ services:
       traefik.http.routers.bilemo.rule: Host(`bilemo.anagraph.org`)
 # Uncomment below to earn web access to the project without Traefik
     ports:
-      - 8000:80
+#      - 8000:80
+      - 443:443
 
   backend:
     container_name: bilemo-php

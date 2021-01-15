@@ -1,6 +1,13 @@
-:80
+:80 {
+    root * /app/public
+    php_fastcgi bilemo-php:9000
+    redir / /docs
+    file_server
+}
 
-root * /app/public
-php_fastcgi bilemo-php:9000
-redir / /docs
-file_server
+localhost:443 {
+    root * /app/public
+    php_fastcgi bilemo-php:9000
+    redir / /docs
+    file_server
+}
