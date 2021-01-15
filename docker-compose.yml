@@ -14,6 +14,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.bilemo.rule: Host(`bilemo.anagraph.org`)
+# Uncomment below to earn web access to the project without Traefik
     ports:
       - 8000:80
 
@@ -23,12 +24,14 @@ services:
       context: .
       dockerfile: system/backend/Dockerfile
       args:
-        PHP_VERSION: "8"
+        PHP_VERSION: 8
+        COMPOSER_VERSION: 2
     depends_on:
       - database
     volumes:
       - .:/app
-      - ./system/backend/php-custom.ini:/usr/local/etc/php/php.ini
+# Uncomment below if you need to pass some custom instructions to php.ini
+#      - ./system/backend/php-custom.ini:/usr/local/etc/php/php.ini
 
   database:
     container_name: bilemo-mysql
@@ -38,12 +41,16 @@ services:
       MYSQL_DATABASE: bilemo
     volumes:
       - mysql_data:/var/lib/mysql
+# Uncomment below to earn direct access to the database
+#    ports:
+#      - 3306:3306
 
 volumes:
   caddy_data:
   caddy_config:
   mysql_data:
 
+# Uncomment below to link with Traefik
 #networks:
 #  default:
 #    external: true
